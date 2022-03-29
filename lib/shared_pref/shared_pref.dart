@@ -1,9 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KeepUserLogin {
-  static saveRegistrationDetails({required String registration}) async {
+  static saveRegistrationDetails({required String userType}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString('registration', registration);
+    sharedPreferences.setString('userType', userType);
   }
 
   static saveEmailDetails({required String email}) async {

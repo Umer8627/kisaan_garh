@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class PostModel {
+class SellerPostModel {
   String uid;
   String docId;
   String username;
@@ -9,8 +9,9 @@ class PostModel {
   String productDescription;
   String price;
   String productImage;
-
-  PostModel(
+  String userType;
+  String postType;
+  SellerPostModel(
       {required this.productImage,
       required this.uid,
       required this.docId,
@@ -18,7 +19,10 @@ class PostModel {
       required this.price,
       required this.productDescription,
       required this.productName,
-      this.publishedDate});
+      this.publishedDate,
+      required this.userType,
+        required this.postType,
+      });
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
@@ -29,10 +33,14 @@ class PostModel {
         "productDescription": productDescription,
         "productPrice": price,
         "productImage": productImage,
+         "userType": userType,
+         "postType":postType,
       };
-  static PostModel fromSnap(DocumentSnapshot snap) {
+  static SellerPostModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
-    return PostModel(
+    return SellerPostModel(
+      postType: snapshot["postType"],
+      userType: snapshot["userType"],
       docId: snapshot["docId"],
       uid: snapshot["uid"],
       username: snapshot["username"],

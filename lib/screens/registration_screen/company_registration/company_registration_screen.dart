@@ -71,21 +71,25 @@ class _CompanyRegisterState extends State<CompanyRegister> {
                     customHeightWidth(height: 20),
                     GestureDetector(
                       onTap: () async {
+
                         if (_formKey.currentState!.validate()) {
                           model.CompanyModel _companyModel = model.CompanyModel(
-                              docId: docId,
+                              docId: widget.docId,
                               name: _companyName.text,
-                              address: _companyAddress.text);
+                              address: _companyAddress.text,
+                              type: "company",
+                          );
                           await firebaseFirestore
                               .collection("companies_register")
-                              .doc(docId)
+                              .doc(widget.docId)
                               .set(_companyModel.toJson());
                           KeepUserLogin.saveRegistrationDetails(
-                              registration: _companyAddress.text);
+                              userType: "company");
                           changeScreenReplace(
                               context,
                               Dashboard(
                                 docId: widget.docId,
+                                userType: "company",
                               ));
                         }
                       },

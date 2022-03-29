@@ -10,7 +10,7 @@ abstract class PostState extends Equatable {
 class PostLoading extends PostState {}
 
 class PostLoaded extends PostState {
-  final List<PostModel> postModel;
+  final List<SellerPostModel> postModel;
   PostLoaded({required this.postModel});
   @override
   List<Object> get props => [postModel];

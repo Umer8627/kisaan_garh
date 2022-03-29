@@ -1,13 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kisaan_garh/blocs/buyer_post_cubit/buyer_cubit.dart';
+import 'package:kisaan_garh/respository/post_repo/buyer_post_repo.dart';
 
 import 'blocs/forget_pass/forget_cubit.dart';
 import 'blocs/login_cubit/login_cubit.dart';
-import 'blocs/post_cubit/post_cubit.dart';
+
+import 'blocs/seller_post_cubit/post_cubit.dart';
 import 'blocs/sign_up_cubit/sign_up_cubit.dart';
 import 'constants/theme/theme.dart';
-import 'respository/post_repo/post_repo.dart';
+import 'respository/post_repo/seller_post_repo.dart';
 import 'screens/splash_screen/splash_screen.dart';
 
 void main() {
@@ -35,7 +38,11 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) =>
-              PostCubit(postRepository: PostRepository()..getAllPost()),
+              SellerPostCubit(postRepository: SellerRepository()..getAllPost()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              BuyerPostCubit(postRepository: BuyerRepository()..getAllPost()),
         ),
       ],
       child: MaterialApp(

@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kisaan_garh/models/post_model/post_model.dart';
-import 'package:kisaan_garh/respository/post_repo/post_repo.dart';
+import 'package:kisaan_garh/models/post_model/seller_post_model.dart';
+import 'package:kisaan_garh/respository/post_repo/seller_post_repo.dart';
 
 part 'post_state.dart';
 
-class PostCubit extends Cubit<PostState> {
-  final PostRepository postRepository;
-  PostCubit({required this.postRepository}) : super(PostLoading());
+class SellerPostCubit extends Cubit<PostState> {
+  final SellerRepository postRepository;
+  SellerPostCubit({required this.postRepository}) : super(PostLoading());
 
   StreamSubscription? _postSubcription;
 

@@ -54,20 +54,24 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
                     customHeightWidth(height: 5),
                     GestureDetector(
                       onTap: () async {
+
                         if (_formKey.currentState!.validate()) {
                           model.FarmerModel _farmerModel = model.FarmerModel(
-                              docId: docId, address: _formerAddress.text);
+                              docId: widget.docId, address: _formerAddress.text,
+                           type: "farmer",
+                          );
                           await firebaseFirestore
                               .collection("farmer_registration")
-                              .doc(docId)
+                              .doc(widget.docId)
                               .set(_farmerModel.toJson());
                           KeepUserLogin.saveRegistrationDetails(
-                              registration: _formerAddress.text);
+                              userType: "farmer");
 
                           changeScreenReplace(
                               context,
                               Dashboard(
                                 docId: widget.docId,
+                                userType: "farmer",
                               ));
                         }
                       },

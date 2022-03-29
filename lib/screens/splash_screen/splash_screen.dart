@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (alreadyLoginEmail == null) {
         print("me alreadyLoginEmail == null ki condition");
         changeScreenReplace(context, LoginScreen());
-      } else if (prefs.getString("registration") == null) {
+      } else if (prefs.getString("userType") == null) {
         print("me prefs.getString ki value check krny aya ho ");
         changeScreenReplace(
             context,
@@ -63,10 +63,13 @@ class _SplashScreenState extends State<SplashScreen> {
               docId: alreadyLoginEmail!,
             ));
       } else {
+        print("i am userType");
+        print("${prefs.getString("userType")}");
         changeScreenReplace(
             context,
             Dashboard(
               docId: alreadyLoginEmail!,
+              userType: "${prefs.getString("userType")}",
             ));
       }
     });

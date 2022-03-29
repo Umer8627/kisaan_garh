@@ -6,20 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kisaan_garh/global_variable/global_varialble.dart';
 import 'package:kisaan_garh/helping_widgets/screen_navigation/screen_navigation.dart';
-import 'package:kisaan_garh/models/post_model/post_model.dart';
+import 'package:kisaan_garh/models/post_model/seller_post_model.dart';
 import 'package:kisaan_garh/screens/dashboard/home_screen/home_screen.dart';
 import 'package:random_string/random_string.dart';
 
-class AddPostScreen extends StatefulWidget {
+class SellerPostScreen extends StatefulWidget {
   final String docId;
+  final String userType;
 
-  AddPostScreen({Key? key, required this.docId}) : super(key: key);
+  SellerPostScreen({Key? key, required this.docId,required this.userType}) : super(key: key);
 
   @override
-  State<AddPostScreen> createState() => _AddPostScreenState();
+  State<SellerPostScreen> createState() => _SellerPostScreenState();
 }
 
-class _AddPostScreenState extends State<AddPostScreen> {
+class _SellerPostScreenState extends State<SellerPostScreen> {
   final _productController = TextEditingController();
   final _descController = TextEditingController();
   final _priceController = TextEditingController();
@@ -27,7 +28,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   bool isButtonPressed = false;
   String? selectedValue;
 
-  UploadPost({required File pickFile}) async {
+  UploadSellerPost({required File pickFile}) async {
     setState(() {
       isButtonPressed = true;
     });
@@ -36,28 +37,30 @@ class _AddPostScreenState extends State<AddPostScreen> {
         await firebaseFirestore.collection("users").doc(widget.docId).get();
     String downloadUrl = await uploadToStorage(pickFile, randomKey);
     print("this is upload task url =>>>>. $downloadUrl");
-    PostModel postModel = PostModel(
+    SellerPostModel postModel = SellerPostModel(
+        postType: "Seller",
         publishedDate: DateTime.now(),
         productImage: downloadUrl,
         uid: firebaseAuth.currentUser!.uid,
         docId: randomKey,
         username: (userDocs.data() as dynamic)["name"],
         price: _priceController.text,
-        productDescription: _productController.text,
-        productName: _productController.text);
+        productDescription: _descController.text,
+        productName: _productController.text, userType: widget.userType);
 
     await firebaseFirestore
-        .collection("posts")
+        .collection("seller_post")
         .doc(randomKey)
         .set(postModel.toJson());
 
     setState(() {
       isButtonPressed = false;
     });
-    changeScreen(
+    changeScreenReplace(
         context,
         HomeScreen(
           docId: widget.docId,
+          userType: widget.userType,
         ));
   }
 
@@ -98,7 +101,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Add Post",
+          "Seller Post",
           style: Theme.of(context)
               .textTheme
               .headline3!
@@ -209,7 +212,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     underline: Container(),
                     hint: Row(
                       children: [
-                        Icon(Icons.add_shopping_cart_outlined),
+                        Icon(Icons.add_shopping_cart_outlined,color: Colors.orange,),
                         SizedBox(
                           width: 10,
                         ),
@@ -218,7 +221,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           style: Theme.of(context)
                               .textTheme
                               .headline4!
-                              .copyWith(fontWeight: FontWeight.w500),
+                              .copyWith(fontWeight: FontWeight.w500,color: Colors.orange),
                         ),
                       ],
                     ),
@@ -366,7 +369,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     _priceController.text.isNotEmpty ||
                     _productController.text.isNotEmpty ||
                     pickedFile != null) {
-                  UploadPost(pickFile: pickedFile ?? File(''));
+                  UploadSellerPost(pickFile: pickedFile ?? File(''));
                 } else {
                   print("you are not good to go");
                 }
