@@ -25,7 +25,7 @@ class _SellerListState extends State<SellerList> {
     BlocProvider.of<SellerPostCubit>(context).loadPost();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
+      backgroundColor: Colors.grey.shade100,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
